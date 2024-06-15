@@ -291,7 +291,7 @@ async function forecastFunction() {
 /* Setting variables in both index.html and forecast.html */
 
 let pathname, startpath;
-startpath = "";
+startpath = "/weather";
 pathname = window.location.pathname;
 
 /* Main code for index.html */
