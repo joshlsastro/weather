@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Josh's Weather App</title>
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="icon" href="weather-icon.png">
+    <link rel="stylesheet" href="https://joshlsastro.github.io/assets/css/style.css">
+    <script src="script.js" async></script>
+  </head>
+  <body>
+    <p>Data courtesy the <a href="https://weather.gov">National Weather Service</a>.</p>
+    <p><input id="location" type="text" placeholder="ZIP Code or City" /> <input type="button" value="Go" onClick="geocode()" /></p>
+    <ul id="savedLocations">
+    </ul>
+    <p><input type="button" onclick="window.localStorage.clear(); location.reload()" value="Clear Locations" /></p>
+    <p>If you'd like to install this on your home screen, follow the instructions <a href="https://github.com/joshlsastro/weather">here</a>.</p>
+    <p><a href="credits.html">Credits</a></p>
+  </body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Josh's Weather App</title>
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="icon" href="weather-icon.png">
+    <link rel="stylesheet" href="https://joshlsastro.github.io/assets/css/style.css">
+    <script src="script.js" async></script>
+    <style>
+      .collapsible {
+        width: 100%;
+      }
+
+      .alerts {
+        border: 5px solid orange;
+      }
+
+      .current {
+        border: 5px solid blue;
+      }
+
+      .basic {
+        border: 5px solid yellow;
+      }
+
+      .detailed {
+        border: 5px solid green;
+      }
+
+      .scientist {
+        border: 5px solid gray;
+      }
+    </style>
+  </head>
+  <body>
+    <p><a href="index.html">Back to main page</a></p>
+    <h1 id="title"></h1>
+    <h3 id="loading">Loading...</h3>
+    <div class="alerts">
+      <h2>Warnings and Watches</h2>
+      <ul id="alerts"></ul>
+    </div>
+    <div class="current">
+      <h2>Current Weather Observations</h2>
+      <p id="current"></div>
+    </div>
+    <div class="basic">
+      <h2>Forecast</h2>
+      <ul id="basic"></ul>
+    </div>
+    <div class="detailed">
+      <p id="detailed"></p>
+    </div>
+    <div class="scientist">
+      <h2>Additional Links</h2>
+      <p id="scientist"></p>
+    </div>
+  </body>
+</html>
