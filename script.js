@@ -247,10 +247,10 @@ async function forecastFunction() {
   current.innerHTML = `<strong><a href="https://tgftp.nws.noaa.gov/data/observations/metar/decoded/${station}.TXT">Current Observation</a></strong><br />`;
   current.innerHTML += `Station: ${stationName}<br />`;
   current.innerHTML += `Updated at: ${readableObsTime.toString()}<br />`;
-  current.innerHTML += `<strong>Temperature: ${tempF}&deg;F (${tempC}&deg;C)</strong><br />`;
+  current.innerHTML += `<strong>Temperature: ${Math.round(tempF)}&deg;F (${tempC}&deg;C)</strong><br />`;
   current.innerHTML += `Sky Conditions: ${observation.textDescription}<br />`;
   current.innerHTML += `Wind: From the ${windDir} at ${Math.round(windSpeedMi)} MPH (${Math.round(windSpeedKm)} KPH)<br />`;
-  current.innerHTML += `Dew Point: ${dewPointF}&deg;F (${dewPointC}&deg;C)<br />`;
+  current.innerHTML += `Dew Point: ${Math.round(dewPointF)}&deg;F (${dewPointC}&deg;C)<br />`;
   current.innerHTML += `Relative Humidity: ${Math.round(observation.relativeHumidity.value)}%<br />`;
   current.innerHTML += `Pressure: ${observation.barometricPressure.value/100} mbar<br />`;
   current.innerHTML += "</p>";
