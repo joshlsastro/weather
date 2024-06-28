@@ -244,7 +244,7 @@ async function forecastFunction() {
   // Display weather from weather station
   let current;
   current = document.getElementById("current");
-  current.innerHTML = `<strong><a href="https://tgftp.nws.noaa.gov/data/observations/metar/decoded/${station}.TXT">Current Observation</a></strong><br />`;
+  current.innerHTML = `<strong style="text-decoration: underline"><a href="https://tgftp.nws.noaa.gov/data/observations/metar/decoded/${station}.TXT">Current Observation</a></strong><br />`;
   current.innerHTML += `Station: ${stationName}<br />`;
   current.innerHTML += `Updated at: ${readableObsTime.toString()}<br />`;
   current.innerHTML += `<strong>Temperature: ${Math.round(tempF)}&deg;F (${tempC}&deg;C)</strong><br />`;
@@ -284,6 +284,18 @@ async function forecastFunction() {
   scientist.innerHTML += '<a href="https://www.nhc.noaa.gov/">Hurricanes</a><br />';
   scientist.innerHTML += '<a href="https://www.spc.noaa.gov/">Severe Storms</a><br />';
   scientist.innerHTML += '<a href="https://www.swpc.noaa.gov/">Space Weather</a><br />';
+  // Astronomical Data Link
+  // U.S. Navy, "Rise, Set, and Twilight Definitions", https://aa.usno.navy.mil/faq/RST_defs
+  // https://aa.usno.navy.mil/calculated/rstt/oneday?date=2024-06-30&lat=71&lon=-156&label=Yahoo&tz=5&tz_sign=1&tz_label=true&dst=false
+  let astroLink, now, dateString, timeZone, tzSign, tzString;
+  now = new Date();
+  dateString = now.toISOString().substring(0, 10);
+   // sign of Date's timezone is timezone-UTC
+  tzSign = -Math.sign(now.getTimezoneOffset());
+  timeZone = Math.abs(now.getTimezoneOffset())/60;
+  tzString = `tz=${timeZone}&tz_sign=${tzSign}&tz_label=false&dst=false`;
+  astroLink = `https://aa.usno.navy.mil/calculated/rstt/oneday?date=${dateString}&lat=${lat}&lon=${lon}&label=${display_name}&${tzString}`;
+  scientist.innerHTML += `<a href="${astroLink}">Sun and Moon</a><br />`;
   // End
   document.getElementById("loading").style = "display: none;";
 }
