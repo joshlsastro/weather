@@ -319,6 +319,7 @@ if ((pathname === startpath+"/") || (pathname === startpath+"/index.html")) {
     foreArray = ["'"+key+"'", value[0], value[1]];
     locListItem = document.createElement("li");
     locListItem.innerHTML = `<input type="button" value="${key}" onclick="forecastFromArray([${foreArray}])" />`;
+    locListItem.innerHTML += ` <input type="button" value="X" onclick="window.localStorage.removeItem('${key}'); location.reload();">`;
     locList.appendChild(locListItem);
   }
 }
