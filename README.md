@@ -2,8 +2,15 @@
 
 ## How to Install
 
+iOS or Chrome on Android:
+
 1. Go to <https://joshlsastro.github.io/weather>.
 2. Follow the instructions [here](https://www.cdc.gov/niosh/mining/content/hearingloss/installPWA.html).
+3. Note: If on Android, pick "Install"
+
+Firefox on Android:
+1. Go to <https://joshlsastro.github.io/weather>.
+2. Follow the instructions [here](https://support.mozilla.org/en-US/kb/add-website-shortcut-your-home-screen-android).
 
 ## About
 
