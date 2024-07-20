@@ -67,6 +67,8 @@ function getIcon(textDescription) {
   const snow = new RegExp("snow", "i");
   const blizzard = new RegExp("blizzard", "i");
 
+  const haze = new RegExp("haze", "i");
+
   found = false;
   if (storm.test(text)) {
     found = true;
@@ -84,6 +86,8 @@ function getIcon(textDescription) {
     return "bkn";
   } else if (sunny.test(text) || clear.test(text)) {
     return "few";
+  } else if (haze.test(text)) {
+    return "hz";
   }
   if (!found) {
     return "NA";
