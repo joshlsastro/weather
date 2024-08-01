@@ -17,6 +17,13 @@ Firefox on Android:
 This is a weather [Progressive Web App](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps) that gets its data from the [National Weather Service](https://weather.gov) in the U.S.  
 Credits are available in the app.
 
+## Bug Reports or Feature Requests
+
+How to submit a bug report or feature request:
+1. Go to [github.com](https://github.com) and create an account if you don't already have one.
+2. Go to [Issues](https://github.com/joshlsastro/weather/issues) and click "New issue".
+3. Put your bug report or feature request in the issue you're creating.
+
 ## License
 
 [![Creative Commons License](https://i.creativecommons.org/l/by/4.0/88x31.png)](http://creativecommons.org/licenses/by/4.0/)  
