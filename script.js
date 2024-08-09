@@ -217,11 +217,24 @@ async function forecastFunction() {
   readableObsTime = new Date();
   readableObsTime.setTime(obsTime);
   tempC = observation.temperature.value;
-  tempF = tempC*(9/5) + 32;
+  if (tempC === null) {
+    tempF = "Unavailable";
+    tempC = "Unavailable";
+  } else {
+    tempF = tempC*(9/5) + 32;
+    tempF = Math.round(tempF);
+  }
   dewPointC = observation.dewpoint.value;
-  dewPointF = dewPointC*(9/5) + 32;
+  if (dewPointC === null) {
+    dewPointF = "Unavailable";
+    dewPointC = "Unavailable";
+  } else {
+    dewPointF = dewPointC*(9/5) + 32;
+    dewPointF = Math.round(dewPointF);
+  }
   // Dealing with wind is annoying
   let windSpeedKm, windSpeedMi, windAngle, windKey, windDir, angleToDir;
+  let relativeHumidity, barometricPressure;
   windAngle = observation.windDirection.value;
   angleToDir = {
     0: "North",
@@ -241,22 +254,43 @@ async function forecastFunction() {
     14: "Northwest",
     15: "North-Northwest"
   }
-  windKey = Math.floor((windAngle%360)/22.5); // 0 for N, 1 for NNW, etc.
-  windDir = angleToDir[windKey];
+  if (windAngle === null) {
+    windDir = "Unavailable";
+  } else {
+    windKey = Math.floor((windAngle%360)/22.5); // 0 for N, 1 for NNW, etc.
+    windDir = angleToDir[windKey];
+  }
   windSpeedKm = observation.windSpeed.value;
-  windSpeedMi = windSpeedKm*100000*(1/2.54)*(1/12)*(1/5280);
+  if (windSpeedKm === null) {
+    windSpeedMi = "Unavailable";
+    windSpeedKm = "Unavailable";
+  } else {
+    windSpeedMi = windSpeedKm*100000*(1/2.54)*(1/12)*(1/5280);
+    windSpeedMi = Math.round(windSpeedMi);
+    windSpeedKm = Math.round(windSpeedKm);
+  }
+  if (observation.relativeHumidity.value === null) {
+    relativeHumidity = "Unavailable";
+  } else {
+    relativeHumidity = Math.round(observation.relativeHumidity.value);
+  }
+  if (observation.barometricPressure.value === null) {
+    barometricPressure = "Unavailable";
+  } else {
+    barometricPressure = observation.barometricPressure.value/100;
+  }
   // Display weather from weather station
   let current;
   current = document.getElementById("current");
   current.innerHTML = `<strong style="text-decoration: underline"><a href="https://tgftp.nws.noaa.gov/data/observations/metar/decoded/${station}.TXT">Current Observation</a></strong><br />`;
   current.innerHTML += `Station: ${stationName}<br />`;
   current.innerHTML += `Updated at: ${readableObsTime.toString()}<br />`;
-  current.innerHTML += `<strong>Temperature: ${Math.round(tempF)}&deg;F (${tempC}&deg;C)</strong><br />`;
+  current.innerHTML += `<strong>Temperature: ${tempF}&deg;F (${tempC}&deg;C)</strong><br />`;
   current.innerHTML += `Sky Conditions: ${observation.textDescription}<br />`;
-  current.innerHTML += `Wind: From the ${windDir} at ${Math.round(windSpeedMi)} MPH (${Math.round(windSpeedKm)} KPH)<br />`;
-  current.innerHTML += `Dew Point: ${Math.round(dewPointF)}&deg;F (${dewPointC}&deg;C)<br />`;
-  current.innerHTML += `Relative Humidity: ${Math.round(observation.relativeHumidity.value)}%<br />`;
-  current.innerHTML += `Pressure: ${observation.barometricPressure.value/100} mbar<br />`;
+  current.innerHTML += `Wind: From the ${windDir} at ${windSpeedMi} MPH (${windSpeedKm} KPH)<br />`;
+  current.innerHTML += `Dew Point: ${dewPointF}&deg;F (${dewPointC}&deg;C)<br />`;
+  current.innerHTML += `Relative Humidity: ${relativeHumidity}%<br />`;
+  current.innerHTML += `Pressure: ${barometricPressure} mbar<br />`;
   current.innerHTML += "</p>";
   // Getting forecast
   let foreL, forecast;
