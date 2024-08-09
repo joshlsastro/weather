@@ -283,15 +283,16 @@ async function forecastFunction() {
   let current;
   current = document.getElementById("current");
   current.innerHTML = `<strong style="text-decoration: underline"><a href="https://tgftp.nws.noaa.gov/data/observations/metar/decoded/${station}.TXT">Current Observation</a></strong><br />`;
-  current.innerHTML += `Station: ${stationName}<br />`;
-  current.innerHTML += `Updated at: ${readableObsTime.toString()}<br />`;
-  current.innerHTML += `<strong>Temperature: ${tempF}&deg;F (${tempC}&deg;C)</strong><br />`;
   current.innerHTML += `Sky Conditions: ${observation.textDescription}<br />`;
+  current.innerHTML += `Temperature: ${tempF}&deg;F (${tempC}&deg;C)<br />`;
   current.innerHTML += `Wind: From the ${windDir} at ${windSpeedMi} MPH (${windSpeedKm} KPH)<br />`;
   current.innerHTML += `Dew Point: ${dewPointF}&deg;F (${dewPointC}&deg;C)<br />`;
   current.innerHTML += `Relative Humidity: ${relativeHumidity}%<br />`;
   current.innerHTML += `Pressure: ${barometricPressure} mbar<br />`;
-  current.innerHTML += "</p>";
+  current.innerHTML += `<br />`;
+  current.innerHTML += `Station: ${stationName}<br />`;
+  // Use Intl.DateTimeFormat if we call toLocaleString() many times
+  current.innerHTML += `Updated at: ${readableObsTime.toLocaleString()}<br />`;
   // Getting forecast
   let foreL, forecast;
   await getJSONFromURL(forecastURL);
