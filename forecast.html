@@ -9,28 +9,43 @@
     <link rel="stylesheet" href="https://joshlsastro.github.io/assets/css/style.css">
     <script src="script.js" async></script>
     <style>
+      :root {
+        --main-radius: 24px;
+        --margin: 4px;
+      }
+
       .collapsible {
         width: 100%;
       }
 
       .alerts {
         border: 5px solid orange;
+        border-radius: var(--main-radius);
+        margin-bottom: var(--margin);
       }
 
       .current {
         border: 5px solid blue;
+        border-radius: var(--main-radius);
+        margin-bottom: var(--margin);
       }
 
       .basic {
         border: 5px solid yellow;
+        border-radius: var(--main-radius);
+        margin-bottom: var(--margin);
       }
 
       .detailed {
         border: 5px solid green;
+        border-radius: var(--main-radius);
+        margin-bottom: var(--margin);
       }
 
       .scientist {
         border: 5px solid gray;
+        border-radius: var(--main-radius);
+        margin-bottom: var(--margin);
       }
     </style>
   </head>
