@@ -322,7 +322,7 @@ async function forecastFunction() {
   scientist.innerHTML += `<a href="https://weather.gov/${wfo}">Your Forecast Office</a><br />`;
   scientist.innerHTML += '<a href="https://www.nhc.noaa.gov/">Hurricanes</a><br />';
   scientist.innerHTML += '<a href="https://www.spc.noaa.gov/">Severe Storms</a><br />';
-  scientist.innerHTML += '<a href="https://www.swpc.noaa.gov/">Space Weather</a><br />';
+  scientist.innerHTML += '<a href="https://www.swpc.noaa.gov/">Space Weather and Auroras</a><br />';
   // Astronomical Data Link
   // U.S. Navy, "Rise, Set, and Twilight Definitions", https://aa.usno.navy.mil/faq/RST_defs
   // https://aa.usno.navy.mil/calculated/rstt/oneday?date=2024-06-30&lat=71&lon=-156&label=Yahoo&tz=5&tz_sign=1&tz_label=true&dst=false
