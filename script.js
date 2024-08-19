@@ -144,7 +144,7 @@ async function detailedFunction() {
     outputP += iconHTML;
     outputP += forecast[i].detailedForecast;
     outputP += `<br />`;
-    detailedL.innerHTML += `<p>${outputP}</p>`;
+    detailedL.innerHTML += `<li>${outputP}</li>`;
   }
   // Displaying Hourly Forecasts for next 24 hours
   let hourlyL, eachForecast, fTime, readableTime, hourlyLi;

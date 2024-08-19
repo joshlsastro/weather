@@ -9,8 +9,29 @@
     <link rel="stylesheet" href="https://joshlsastro.github.io/assets/css/style.css">
     <script src="script.js" async></script>
     <style>
+      :root {
+        --main-radius: 24px;
+        --margin: 4px;
+      }
+
       .collapsible {
         width: 100%;
+      }
+
+      .detailed {
+        border: 5px solid green;
+        border-radius: var(--main-radius);
+        margin-bottom: var(--margin);
+      }
+
+      .hourly {
+        border: 5px solid blue;
+        border-radius: var(--main-radius);
+        margin-bottom: var(--margin);
+      }
+
+      #detailed {
+        margin-right: var(--margin);
       }
     </style>
   </head>
@@ -18,8 +39,13 @@
     <p><a href="index.html">Back to main page</a></p>
     <h1 id="title"></h1>
     <h3 id="loading">Loading...</h3>
-    <div id="detailed"></div>
-    <h2>Hourly Forecast</h2>
-    <ul id="hourly"></ul>
+    <div class="detailed">
+      <h2>Detailed Forecast</h2>
+      <ul id="detailed"></ul>
+    </div>
+    <div class="hourly">
+      <h2>Hourly Forecast</h2>
+      <ul id="hourly"></ul>
+    </div>
   </body>
 </html>
