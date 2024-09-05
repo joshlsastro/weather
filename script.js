@@ -1,6 +1,10 @@
 /* Global variables */
 
 window.json_response = {};
+window.allSettings = [];
+window.defaultSettings = {
+
+};
 
 /* Functions */
 
@@ -11,6 +15,49 @@ async function getJSONFromURL(URL) {
   }).then((data) => {
     window.json_response = data;
   });
+}
+
+function setCookie(name, value) {
+  /* Sets cookie with name=value that expires in 1 year. */
+  document.cookie = `${name}=${value};samesite=strict;max-age=31536000`;
+}
+
+function updateSettings() {
+  /* Updates user settings from settings page */
+  let i, h, settingOptions, setting;
+  allSettings = window.allSettings;
+  for (h=0; h<allSettings.length; h++) {
+    settingOptions = document.getElementsByName(allSettings[h]);
+    for (i=0; i<settingOptions.length; i++) {
+      if (settingOptions[i].checked) {
+        setting = settingOptions[i].value;
+      }
+    }
+    setCookie(allSettings[h], setting);
+  }
+}
+
+function getSettings() {
+  /* Get user settings */
+  let i, j, settingArray, settingMap, eachSetting;
+  settingArray = document.cookie.split(";");
+  settingMap = new Map();
+  for (i=0; i<settingArray.length; i++) {
+    eachSetting = settingArray[i].trim().split("=");
+    settingMap.set(eachSetting[0], eachSetting[1]);
+  }
+  if (i < window.allSettings.length) {
+    /* User hasn't updated settings yet or has deleted a cookie */
+    let keys, key;
+    keys = Array.from(settingMap.keys());
+    for (j=0; j<window.allSettings.length; j++) {
+      key = window.allSettings[j]
+      if (!(keys.includes(key))) {
+        settingMap.set(key, window.defaultSettings[key]);
+      }
+    }
+  }
+  return settingMap;
 }
 
 function forecastPage(name, lat, lon) {
@@ -373,4 +420,23 @@ if (pathname === startpath + "/forecast.html") {
 
 if (pathname === startpath + "/detailed.html") {
   window.onload = detailedFunction;
+}
+
+/* Main code for settings.html */
+
+if (pathname === startpath + "/settings.html") {
+  let settingsMap;
+  settingsMap = getSettings();
+  /* Set buttons according to settings */
+  let i, j, key, radios;
+  for (i=0; i<window.allSettings.length; i++) {
+    key = window.allSettings[i];
+    radios = document.getElementsByName(key);
+    for (j=0; j<radios.length; j++) {
+      if (radios[j].value === settingsMap.get(key)) {
+        radios[j].checked = true;
+      }
+    }
+  }
+  updateSettings();
 }
