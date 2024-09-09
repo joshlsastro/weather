@@ -1,9 +1,9 @@
 /* Global variables */
 
 window.json_response = {};
-window.allSettings = ["firstPage"];
+window.allSettings = [];
 window.defaultSettings = {
-  firstPage: "index"
+
 };
 
 /* Functions */
@@ -46,7 +46,7 @@ function getSettings() {
     eachSetting = settingArray[i].trim().split("=");
     settingMap.set(eachSetting[0], eachSetting[1]);
   }
-  if ((i < window.allSettings.length) || (document.cookie === "")) {
+  if (i < window.allSettings.length) {
     /* User hasn't updated settings yet or has deleted a cookie */
     let keys, key;
     keys = Array.from(settingMap.keys());
