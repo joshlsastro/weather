@@ -14,7 +14,15 @@
     </style>
   </head>
   <body>
-    <p><a href="index.html">Back to main page</a></p>
-    <h2>Nothing Yet</h2>
+    <p><a href="index.html#">Back to main page</a></p>
+    <h2>When Opened, Go to:</h2>
+    <p>
+      <input type="radio" name="firstPage" value="index" onclick="updateSettings()">
+      List of all locations
+    </p>
+    <p>
+      <input type="radio" name="firstPage" value="last" onclick="updateSettings()">
+      The last location viewed
+    </p>
   </body>
 </html>

@@ -1,9 +1,9 @@
 /* Global variables */
 
 window.json_response = {};
-window.allSettings = [];
+window.allSettings = ["firstPage"];
 window.defaultSettings = {
-
+  firstPage: "index"
 };
 
 /* Functions */
@@ -46,8 +46,9 @@ function getSettings() {
     eachSetting = settingArray[i].trim().split("=");
     settingMap.set(eachSetting[0], eachSetting[1]);
   }
-  if (i < window.allSettings.length) {
-    /* User hasn't updated settings yet or has deleted a cookie */
+  if ((i < window.allSettings.length) || (document.cookie === "")) {
+    /* User hasn't updated settings yet or has deleted a cookie
+       In this case, use the default settings */
     let keys, key;
     keys = Array.from(settingMap.keys());
     for (j=0; j<window.allSettings.length; j++) {
@@ -64,12 +65,31 @@ function forecastPage(name, lat, lon) {
   window.location = `forecast.html?name=${name}&lat=${lat}&lon=${lon}`;
 }
 
+function setToPreferred(location) {
+  // Sets location to the preferred one
+  let i, len, key, value;
+  len = localStorage.length;
+  for (i=0; i<len; i++) {
+    key = localStorage.key(i);
+    value = localStorage.getItem(key);
+    value = value.split(",");
+    if (key === location) {
+      // The 1 indicates if this was the last location looked at
+      localStorage.setItem(key, `${value[0]},${value[1]},1`);
+    } else {
+      localStorage.setItem(key, `${value[0]},${value[1]}`);
+    }
+  }
+}
+
 function forecastFromArray(arr) {
+  setToPreferred(arr[0]); // Last location viewed
   forecastPage(arr[0], arr[1], arr[2]);
 }
 
 function saveLocation(location, lat, lon) {
   localStorage.setItem(location, `${lat},${lon}`);
+  setToPreferred(location); // Last location viewed
 }
 
 async function geocode() {
@@ -395,8 +415,24 @@ pathname = window.location.pathname;
 /* Main code for index.html */
 
 if ((pathname === startpath+"/") || (pathname === startpath+"/index.html")) {
-  let len, i, key, value, locList, locListItem, foreArray;
+  let len, i, key, value, locList, locListItem, foreArray, settingsMap;
   len = localStorage.length;
+  /* Check settings if we're opening the weather app */
+  if (!(window.location.href.endsWith("#"))) {
+    settingsMap = getSettings();
+    if (settingsMap.get("firstPage") === "last") {
+      for (i=0; i<len; i++) {
+        key = localStorage.key(i);
+        value = localStorage.getItem(key);
+        value = value.split(",");
+        if (value.length === 3) {
+          // Location is preffered, go there
+          forecastPage(key, value[0], value[1]);
+        }
+      }
+    }
+  }
+  /* Show locations */
   locList = document.getElementById("savedLocations");
   for (i=0; i<len; i++) {
     key = localStorage.key(i);
