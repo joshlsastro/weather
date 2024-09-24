@@ -201,29 +201,30 @@ async function detailedFunction() {
   await getJSONFromURL(hourlyForecastURL);
   hourlyForecast = window.json_response.properties.periods;
   // Displaying Detailed Forecasts
-  let i, j, detailedL, iconHTML, outputP;
-  detailedL = document.getElementById("detailed");
+  let i, j, detailedT, iconHTML, outputP;
+  detailedT = document.getElementById("detailed");
   for (i=0; i<FORENUM; i++) {
     outputP = "";
-    outputP += `${forecast[i].name}<br />`;
+    outputP += `<td>${forecast[i].name}<br />`;
     iconHTML = getIconHTML(forecast[i].shortForecast, forecast[i].isDaytime);
-    iconHTML += `<br />`;
     outputP += iconHTML;
+    outputP += `</td><td>`
     outputP += forecast[i].detailedForecast;
     outputP += `<br />`;
-    detailedL.innerHTML += `<li>${outputP}</li>`;
+    outputP += `Temperature: ${forecast[i].temperature}&deg;${forecast[i].temperatureUnit}`;
+    detailedT.innerHTML += `<tr>${outputP}</tr>`;
   }
   // Displaying Hourly Forecasts for next 24 hours
-  let hourlyL, eachForecast, fTime, readableTime, hourlyLi;
-  hourlyL = document.getElementById("hourly");
+  let hourlyT, eachForecast, fTime, readableTime, hourlyTr;
+  hourlyT = document.getElementById("hourly");
   for (j=0; j<24; j++) {
     eachForecast = hourlyForecast[j];
     fTime = Date.parse(eachForecast.startTime);
     readableTime = new Date();
     readableTime.setTime(fTime);
     iconHTML = getIconHTML(eachForecast.shortForecast, eachForecast.isDaytime);
-    hourlyLi = `<li>${readableTime.getHours()}:00<br />${iconHTML}<br />${eachForecast.temperature}&deg;${eachForecast.temperatureUnit}<br />${eachForecast.shortForecast}</li>`;
-    hourlyL.innerHTML += hourlyLi;
+    hourlyTr = `<tr><td>${readableTime.getHours()}:00<br />${iconHTML}</td><td>${eachForecast.temperature}&deg;${eachForecast.temperatureUnit}<br />${eachForecast.shortForecast}</td></tr>`;
+    hourlyT.innerHTML += hourlyTr;
   }
   // End
   document.getElementById("loading").style = "display: none;";

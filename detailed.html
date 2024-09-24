@@ -14,6 +14,10 @@
         --margin: 4px;
       }
 
+      table, td {
+        border: 1px solid black;
+      }
+
       .collapsible {
         width: 100%;
       }
@@ -41,11 +45,17 @@
     <h3 id="loading">Loading...</h3>
     <div class="detailed">
       <h2>Detailed Forecast</h2>
-      <ul id="detailed"></ul>
+      <table id="detailed">
+        <caption>Detailed Forecast</caption>
+      </table>
+      &nbsp;
     </div>
     <div class="hourly">
       <h2>Hourly Forecast</h2>
-      <ul id="hourly"></ul>
+      <table id="hourly">
+        <caption>Hourly Forecast</caption>
+      </table>
+      &nbsp;
     </div>
   </body>
 </html>
