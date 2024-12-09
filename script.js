@@ -94,14 +94,19 @@ function saveLocation(location, lat, lon) {
 
 async function geocode() {
   /* Gets location and takes you to that location */
-  let location, URL, request, resp;
+  let location, URL, request, resp
+  const notblank = /\S/;
   location = document.getElementById("location").value;
-  URL = `https://nominatim.openstreetmap.org/search?q=${location}, United States&format=json`;
-  await getJSONFromURL(URL);
-  resp = window.json_response;
-  resp = resp[0];
-  saveLocation(location, resp.lat, resp.lon);
-  forecastPage(resp.display_name, resp.lat, resp.lon);
+  if (notblank.test(location)) {
+    URL = `https://nominatim.openstreetmap.org/search?q=${location}, United States&format=json`;
+    await getJSONFromURL(URL);
+    resp = window.json_response;
+    resp = resp[0];
+    saveLocation(location, resp.lat, resp.lon);
+    forecastPage(resp.display_name, resp.lat, resp.lon);
+  } else {
+    ; // Do nothing
+  }
 }
 
 function toggle(i) {
