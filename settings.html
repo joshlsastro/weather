@@ -12,10 +12,18 @@
         height: 1.5em;
         width: 1.5em;
       }
+
+      header {
+        position: sticky;
+        top: 0px;
+        background-color: white;
+      }
     </style>
   </head>
   <body>
-    <p><a href="index.html#">Back to main page</a></p>
+    <header>
+      <p><a href="index.html#">Back to main page</a></p>
+    </header>
     <h2>When Opened, Go to:</h2>
     <p>
       <input type="radio" name="firstPage" value="index" onclick="updateSettings()">
