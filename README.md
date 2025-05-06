@@ -2,11 +2,13 @@
 
 ## How to Install
 
-iOS or Chrome on Android:
+iOS:
+1. Go to <https://joshlsastro.github.io/weather> in Safari.  
+2. Follow the instructions [here](https://support.apple.com/guide/iphone/bookmark-a-website-iph42ab2f3a7/ios) under "Add a website icon to your Home Screen".  
 
+Chrome on Android:
 1. Go to <https://joshlsastro.github.io/weather>.
-2. Follow the instructions [here](https://www.cdc.gov/niosh/mining/content/hearingloss/installPWA.html).
-3. Note: If on Android, pick "Install"
+2. Follow the instructions [here](https://support.google.com/chrome/answer/9658361).
 
 Firefox on Android:
 1. Go to <https://joshlsastro.github.io/weather>.

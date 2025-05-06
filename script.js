@@ -1,9 +1,10 @@
 /* Global variables */
 
 window.json_response = {};
-window.allSettings = ["firstPage"];
+window.allSettings = ["firstPage", "theme"];
 window.defaultSettings = {
-  firstPage: "index"
+  firstPage: "index",
+  theme: "light"
 };
 
 /* Functions */
@@ -59,6 +60,28 @@ function getSettings() {
     }
   }
   return settingMap;
+}
+
+function setThemeCSS() {
+  /* Deals with Dark Mode */
+  let settingsMap, i, j, tagsList, root;
+  settingsMap = getSettings();
+  if (settingsMap.get("theme") === "dark") {
+    document.body.style.backgroundColor = "black";
+    tagsList = ["input", "header", "li"];
+    for (i=0; i<tagsList.length; i++) {
+      for (j=0; j<document.getElementsByTagName(tagsList[i]).length; j++) {
+        document.getElementsByTagName(tagsList[i])[j].style.backgroundColor = "black";
+      }
+    }
+    root = document.querySelector(":root");
+    root.style.setProperty("--td-color", "white");
+  }
+  if (settingsMap.get("theme") === "light") {
+    /* Should only be needed in settings.html */
+    document.body.style.backgroundColor = null;
+    document.getElementsByTagName("header")[0].style.backgroundColor = null;
+  }
 }
 
 function forecastPage(name, lat, lon) {
@@ -417,6 +440,11 @@ async function forecastFunction() {
 let pathname, startpath;
 startpath = "/weather";
 pathname = window.location.pathname;
+
+/* This code needs to run on all pages */
+
+/* Check settings for dark mode */
+setThemeCSS();
 
 /* Main code for index.html */
 
