@@ -26,21 +26,38 @@
     </header>
     <h2>When Opened, Go to:</h2>
     <p>
-      <input type="radio" name="firstPage" value="index" onclick="updateSettings()">
-      List of all locations
+      <input id="firstIndex" type="radio" name="firstPage" value="index" onclick="updateSettings()">
+      <label for="firstIndex">List of all locations</label>
     </p>
     <p>
-      <input type="radio" name="firstPage" value="last" onclick="updateSettings()">
-      The last location viewed
+      <input id="firstLast" type="radio" name="firstPage" value="last" onclick="updateSettings()">
+      <label for="firstLast">The last location viewed</label>
     </p>
     <h2>Light/Dark Mode:</h2>
     <p>
-      <input type="radio" name="theme" value="light" onclick="updateSettings(); setThemeCSS()">
-      Light Mode
+      <input id="themeLight" type="radio" name="theme" value="light" onclick="updateSettings(); setThemeCSS()">
+      <label for="themeLight">Light Mode</label>
     </p>
     <p>
-      <input type="radio" name="theme" value="dark" onclick="updateSettings(); setThemeCSS()">
-      Dark Mode
+      <input id="themeDark" type="radio" name="theme" value="dark" onclick="updateSettings(); setThemeCSS()">
+      <label for="themeDark">Dark Mode</label>
+    </p>
+    <h2>Number of Days in Forecast</h2>
+    <p>
+      <input type="radio" name="days" value="2" onclick="updateSettings()">
+      2
+    </p>
+    <p>
+      <input type="radio" name="days" value="3" onclick="updateSettings()">
+      3
+    </p>
+    <p>
+      <input type="radio" name="days" value="4" onclick="updateSettings()">
+      4
+    </p>
+    <p>
+      <input type="radio" name="days" value="5" onclick="updateSettings()">
+      5
     </p>
   </body>
 </html>

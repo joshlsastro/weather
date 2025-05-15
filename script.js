@@ -1,11 +1,13 @@
 /* Global variables */
 
 window.json_response = {};
-window.allSettings = ["firstPage", "theme"];
+window.allSettings = ["firstPage", "theme", "days"];
 window.defaultSettings = {
   firstPage: "index",
-  theme: "light"
+  theme: "light",
+  days: "3"
 };
+window.forenum = parseInt(window.defaultSettings.days) * 2;
 
 /* Functions */
 
@@ -208,8 +210,6 @@ function getIconHTML(textDescription, isDaytime) {
 
 async function detailedFunction() {
   /* Main function for detailed.html */
-  // Number of days + nights forecast will go to
-  const FORENUM = 6;
   // Getting params
   let params, display_name, lat, lon;
   params = window.location.href.split("?")[1];
@@ -233,7 +233,7 @@ async function detailedFunction() {
   // Displaying Detailed Forecasts
   let i, j, detailedT, iconHTML, outputP;
   detailedT = document.getElementById("detailed");
-  for (i=0; i<FORENUM; i++) {
+  for (i=0; i<window.forenum; i++) {
     outputP = "";
     outputP += `<td>${forecast[i].name}<br />`;
     iconHTML = getIconHTML(forecast[i].shortForecast, forecast[i].isDaytime);
@@ -262,8 +262,6 @@ async function detailedFunction() {
 
 async function forecastFunction() {
   /* Main function for forecast.html */
-  // Number of days + nights forecast will go to
-  const FORENUM = 6;
   // Getting params
   let params, display_name, lat, lon;
   params = window.location.href.split("?")[1];
@@ -396,7 +394,7 @@ async function forecastFunction() {
   await getJSONFromURL(forecastURL);
   foreL = document.getElementById("basic");
   forecast = window.json_response.properties.periods;
-  for(i=0; i<FORENUM; i++) {
+  for(i=0; i<window.forenum; i++) {
     foreL.innerHTML += `<li>${forecast[i].name} `;
     foreL.innerHTML += getIconHTML(forecast[i].shortForecast, forecast[i].isDaytime);
     foreL.innerHTML += "<br />";
@@ -445,8 +443,9 @@ pathname = window.location.pathname;
 
 /* This code needs to run on all pages */
 
-/* Check settings for dark mode */
+/* Check settings for dark mode and forecast days */
 setThemeCSS();
+window.forenum = parseInt(getSettings().get("days")) * 2;
 
 /* Main code for index.html */
 
