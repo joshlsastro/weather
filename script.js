@@ -479,6 +479,7 @@ if ((pathname === startpath+"/") || (pathname === startpath+"/index.html")) {
     locListItem.innerHTML += ` <input type="button" value="X" onclick="window.localStorage.removeItem('${key}'); location.reload();">`;
     locList.appendChild(locListItem);
   }
+  setThemeCSS(); // Needed to deal with added buttons
 }
 
 /* Main code for forecast.html */
