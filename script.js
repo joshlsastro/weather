@@ -78,13 +78,14 @@ function setThemeCSS() {
     }
     root = document.querySelector(":root");
     root.style.setProperty("--td-color", "white");
+    root.style.setProperty("--input-color", "white");
   }
   if (settingsMap.get("theme") === "light") {
-    /* Should only be needed in settings.html and detailed.html */
     document.body.style.backgroundColor = null;
     document.getElementsByTagName("header")[0].style.backgroundColor = null;
     root = document.querySelector(":root");
     root.style.setProperty("--td-color", "black");
+    root.style.setProperty("--input-color", "black");
   }
 }
 

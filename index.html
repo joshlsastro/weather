@@ -9,6 +9,15 @@
     <link rel="icon" href="weather-icon.png">
     <link rel="apple-touch-icon" href="weather-icon.png">
     <link rel="stylesheet" href="https://joshlsastro.github.io/assets/css/style.css">
+    <style>
+      :root {
+        --input-color: white;
+      }
+
+      input {
+        color: var(--input-color);
+      }
+    </style>
     <script async>
     navigator.onLine ? 0 : alert("This app is offline and cannot get weather forecasts.");
     </script>
@@ -17,7 +26,7 @@
   <body>
     <header></header>
     <p>Data courtesy the <a href="https://weather.gov">National Weather Service</a>.</p>
-    <p><input id="location" type="text" placeholder="ZIP Code or City" /> <input type="button" value="Go" onClick="geocode()" /></p>
+    <p><label for="location">ZIP Code or City Below:</label><br /><input id="location" type="text" placeholder="ZIP Code or City" /> <input type="button" value="Go" onClick="geocode()" /></p>
     <ul id="savedLocations">
     </ul>
     <p><input type="button" onclick="window.localStorage.clear(); location.reload()" value="Clear Locations" /></p>
