@@ -1,6 +1,7 @@
 /* Global variables */
 
 window.json_response = {};
+window.isOK = false;
 window.allSettings = ["firstPage", "theme", "days"];
 window.defaultSettings = {
   firstPage: "index",
@@ -17,6 +18,15 @@ async function getJSONFromURL(URL) {
     return (response.ok ? response.json() : alert(`Error: Could not get ${URL}`));
   }).then((data) => {
     window.json_response = data;
+  });
+}
+
+async function getIsOKFromURL(URL) {
+  /* Returns true iff URL returns OK */
+  await fetch(URL).then((response) => {
+    return response.ok
+  }).then((data) => {
+    window.isOK = data;
   });
 }
 
@@ -209,6 +219,30 @@ function getIconHTML(textDescription, isDaytime) {
   return iconHTML;
 }
 
+// The following code calculates distances using latitude and longitude. It is not currently used, but may be useful in the future/
+function haversine(angle) {
+  return (1 - Math.cos(angle))/2;
+}
+
+function invHaversine(distance) {
+  return Math.acos(1 - 2*distance);
+}
+
+function getDistance(lat1, long1, lat2, long2) {
+  /* Finds distance between (lat1, long1) and (lat2, long2) in kilometers on the surface of Earth */
+  const R_earth = 12756/2;
+  // Convert coordinates from degrees to radians
+  lat1 = lat1 * Math.PI/180;
+  long1 = long1 * Math.PI/180;
+  lat2 = lat2 * Math.PI/180;
+  long2 = long2 * Math.PI/180;
+  // Distance formula
+  let haversine_a, d;
+  haversine_a = haversine(lat1-lat2) +  Math.cos(lat1)*Math.cos(lat2)*haversine(long1-long2);
+  d = R_earth * invHaversine(haversine_a);
+  return d;
+}
+
 async function detailedFunction() {
   /* Main function for detailed.html */
   // Getting params
@@ -298,11 +332,31 @@ async function forecastFunction() {
     alertListItem.innerHTML = `<button class="collapsible" onclick="toggle(${i})">${alert.headline}</button><pre id="alert${i}" style="display: none">${alertText}</pre>`;
     alertList.appendChild(alertListItem);
   }
-  // Finding nearest weather station
-  let station, stationURL, stationName;
+  // Finding nearest functioning weather station
+  let stations;
+  let stationMap, stationDistance, stationDistanceArray;
+  let stationURL, stationName, stationID;
+  stationMap = new Map();
+  stationDistanceArray = [];
   await getJSONFromURL(stationsURL);
-  stationURL = window.json_response.observationStations[0];
-  station = stationURL.substring(stationURL.length-4);
+  stations = window.json_response.features;
+  for (i=0; i<stations.length; i++) {
+    stationID = stations[i].properties.stationIdentifier;
+    stationDistance = stations[i].properties.distance.value;
+    stationDistanceArray.push(stationDistance);
+    stationMap.set(stationDistance, stationID); // Allows locating a station by distance
+  }
+  stationDistanceArray.sort((a, b) => a - b);
+  for (i=0; i<stations.length; i++) {
+    // Get closest station that is OK
+    stationDistance = stationDistanceArray[i];
+    stationID = stationMap.get(stationDistance);
+    stationURL = `https://api.weather.gov/stations/${stationID}`;
+    await getIsOKFromURL(`${stationURL}/observations/latest`);
+    if (window.isOK) {
+      break;
+    }
+  }
   // Get weather from weather station
   let observation, obsTime, readableObsTime;
   let tempC, tempF, dewPointC, dewPointF;
@@ -379,7 +433,7 @@ async function forecastFunction() {
   // Display weather from weather station
   let current;
   current = document.getElementById("current");
-  current.innerHTML = `<strong style="text-decoration: underline"><a href="https://tgftp.nws.noaa.gov/data/observations/metar/decoded/${station}.TXT">Current Observation</a></strong><br />`;
+  current.innerHTML = `<strong style="text-decoration: underline"><a href="https://tgftp.nws.noaa.gov/data/observations/metar/decoded/${stationID}.TXT">Current Observation</a></strong><br />`;
   current.innerHTML += `Sky Conditions: ${observation.textDescription}<br />`;
   current.innerHTML += `Temperature: ${tempF}&deg;F (${tempC}&deg;C)<br />`;
   current.innerHTML += `Wind: From the ${windDir} at ${windSpeedMi} MPH (${windSpeedKm} KPH)<br />`;
