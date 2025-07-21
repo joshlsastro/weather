@@ -359,7 +359,7 @@ async function forecastFunction() {
   }
   // Get weather from weather station
   let observation, obsTime, readableObsTime;
-  let tempC, tempF, dewPointC, dewPointF;
+  let tempC, tempF, windSpeedKm, dewPointC, dewPointF, apparentTempC, waterVaporPressure;
   await getJSONFromURL(stationURL);
   stationName = window.json_response.properties.name;
   await getJSONFromURL(`${stationURL}/observations/latest`);
@@ -368,6 +368,23 @@ async function forecastFunction() {
   readableObsTime = new Date();
   readableObsTime.setTime(obsTime);
   tempC = observation.temperature.value;
+  windSpeedKm = observation.windSpeed.value;
+  // Calculate Apparent Temperature
+  // Formulae from: Bureau of Meteorology, "About the formula for the apparent temperature", http://www.bom.gov.au/info/thermal_stress/#atapproximation, 2010, _Thermal Comfort observations_
+  // This is still an active area of research; A wet-bulb globe temperature works better
+  let windSpeedMeters;
+  if ((tempC === null) || (observation.relativeHumidity.value === null) || (windSpeedKm === null)) {
+    apparentTempC = "Unavailable";
+    apparentTempF = "Unavailable";
+  } else {
+    waterVaporPressure = (observation.relativeHumidity.value/100) * 6.105 * Math.exp((17.27*tempC)/(237.7+tempC))
+    windSpeedMeters = windSpeedKm * 1000 * (1/3600);
+    apparentTempC = tempC + 0.33*waterVaporPressure - 0.7*windSpeedMeters - 4;
+    apparentTempF = apparentTempC*(9/5) + 32;
+    apparentTempC = Math.round(apparentTempC);
+    apparentTempF = Math.round(apparentTempF);
+  }
+  // Convert Celsius to Fahrenheit
   if (tempC === null) {
     tempF = "Unavailable";
     tempC = "Unavailable";
@@ -384,7 +401,7 @@ async function forecastFunction() {
     dewPointF = Math.round(dewPointF);
   }
   // Dealing with wind is annoying
-  let windSpeedKm, windSpeedMi, windAngle, windKey, windDir, angleToDir;
+  let windSpeedMi, windAngle, windKey, windDir, angleToDir;
   let relativeHumidity, barometricPressure;
   windAngle = observation.windDirection.value;
   angleToDir = {
@@ -411,7 +428,6 @@ async function forecastFunction() {
     windKey = Math.floor((windAngle%360)/22.5); // 0 for N, 1 for NNW, etc.
     windDir = angleToDir[windKey];
   }
-  windSpeedKm = observation.windSpeed.value;
   if (windSpeedKm === null) {
     windSpeedMi = "Unavailable";
     windSpeedKm = "Unavailable";
@@ -436,6 +452,7 @@ async function forecastFunction() {
   current.innerHTML = `<strong style="text-decoration: underline"><a href="https://tgftp.nws.noaa.gov/data/observations/metar/decoded/${stationID}.TXT">Current Observation</a></strong><br />`;
   current.innerHTML += `Sky Conditions: ${observation.textDescription}<br />`;
   current.innerHTML += `Temperature: ${tempF}&deg;F (${tempC}&deg;C)<br />`;
+  current.innerHTML += `Approximate Apparent Temperature: ${apparentTempF}&deg;F (${apparentTempC}&deg;C)<br />`;
   current.innerHTML += `Wind: From the ${windDir} at ${windSpeedMi} MPH (${windSpeedKm} KPH)<br />`;
   current.innerHTML += `Dew Point: ${dewPointF}&deg;F (${dewPointC}&deg;C)<br />`;
   current.innerHTML += `Relative Humidity: ${relativeHumidity}%<br />`;
