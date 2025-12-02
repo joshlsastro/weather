@@ -14,6 +14,10 @@
         --margin: 4px;
       }
 
+      table, td {
+        border: 1px solid var(--td-color);
+      }
+
       .collapsible {
         width: 100%;
       }
@@ -71,7 +75,15 @@
     </div>
     <div class="current">
       <h2>Current Weather Observations</h2>
-      <p id="current"></p>
+      <div id="obsLink"></div>
+      <table>
+        <caption>Current Observation</caption>
+        <tbody id="observation"></tbody>
+      </table><br />
+      <table>
+        <caption>Observation Metadata</caption>
+        <tbody id="metadata"></tbody>
+      </table><br />
     </div>
     <div class="basic">
       <h2>Forecast</h2>

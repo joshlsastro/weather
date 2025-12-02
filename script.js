@@ -444,23 +444,24 @@ async function forecastFunction() {
   if (observation.barometricPressure.value === null) {
     barometricPressure = "Unavailable";
   } else {
-    barometricPressure = observation.barometricPressure.value/100;
+    barometricPressure = Math.round(observation.barometricPressure.value/100);
   }
   // Display weather from weather station
-  let current;
-  current = document.getElementById("current");
-  current.innerHTML = `<strong style="text-decoration: underline"><a href="https://tgftp.nws.noaa.gov/data/observations/metar/decoded/${stationID}.TXT">Current Observation</a></strong><br />`;
-  current.innerHTML += `Sky Conditions: ${observation.textDescription}<br />`;
-  current.innerHTML += `Temperature: ${tempF}&deg;F (${tempC}&deg;C)<br />`;
-  current.innerHTML += `Approximate Apparent Temperature: ${apparentTempF}&deg;F (${apparentTempC}&deg;C)<br />`;
-  current.innerHTML += `Wind: From the ${windDir} at ${windSpeedMi} MPH (${windSpeedKm} KPH)<br />`;
-  current.innerHTML += `Dew Point: ${dewPointF}&deg;F (${dewPointC}&deg;C)<br />`;
-  current.innerHTML += `Relative Humidity: ${relativeHumidity}%<br />`;
-  current.innerHTML += `Pressure: ${barometricPressure} mbar<br />`;
-  current.innerHTML += `<br />`;
-  current.innerHTML += `Station: ${stationName}<br />`;
+  let obsLink, observationT, metadataT;
+  obsLink = document.getElementById("obsLink");
+  obsLink.innerHTML = `<p><strong style="text-decoration: underline"><a href="https://tgftp.nws.noaa.gov/data/observations/metar/decoded/${stationID}.TXT">Current Observation Link</a></strong></p>`;
+  observationT = document.getElementById("observation");
+  observationT.innerHTML = `<tr><td>Sky Conditions</td><td>${observation.textDescription}</td></tr>`;
+  observationT.innerHTML += `<tr><td>Temperature</td><td>${tempF}&deg;F (${tempC}&deg;C)</td></tr>`;
+  observationT.innerHTML += `<tr><td>Rough Apparent Temperature</td><td>${apparentTempF}&deg;F (${apparentTempC}&deg;C)</td></tr>`;
+  observationT.innerHTML += `<tr><td>Wind</td><td>From the ${windDir} at ${windSpeedMi} MPH (${windSpeedKm} KPH)</td></tr>`;
+  observationT.innerHTML += `<tr><td>Dew Point</td><td>${dewPointF}&deg;F (${dewPointC}&deg;C)</td></tr>`;
+  observationT.innerHTML += `<tr><td>Relative Humidity</td><td>${relativeHumidity}%</td></tr>`;
+  observationT.innerHTML += `<tr><td>Pressure</td><td>${barometricPressure} mbar</td></tr>`;
+  metadataT = document.getElementById("metadata");
+  metadataT.innerHTML = `<tr><td>Station</td><td>${stationName}</td></tr>`;
   // Use Intl.DateTimeFormat if we call toLocaleString() many times
-  current.innerHTML += `Updated at: ${readableObsTime.toLocaleString()}<br />`;
+  metadataT.innerHTML += `<tr><td>Updated</td><td>${readableObsTime.toLocaleString()}</td></tr>`;
   // Getting forecast
   let foreL, forecast;
   await getJSONFromURL(forecastURL);
