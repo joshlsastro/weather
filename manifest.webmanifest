@@ -7,6 +7,18 @@
       "sizes": "200x200",
       "type": "image/png",
       "purpose": "maskable"
+    },
+    {
+      "src": "media/weather_icon_original.svg",
+      "sizes": "144x144",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "media/weather_icon_original.svg",
+      "sizes": "144x144",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
     }
   ],
   "name": "Josh's Weather App",
