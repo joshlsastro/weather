@@ -9,6 +9,7 @@ iOS:
 Chrome on Android:
 1. Go to <https://joshlsastro.github.io/weather>.
 2. Follow the instructions [here](https://support.google.com/chrome/answer/9658361).
+3. Note: If the weather app does not work correctly, swipe down to reload the page. It may work after this.
 
 Firefox on Android:
 1. Go to <https://joshlsastro.github.io/weather>.
